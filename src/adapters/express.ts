@@ -50,6 +50,11 @@ function expressContextMiddleware(
         const requestDuration = Date.now() - startTime;
         HttpContext.set('requestDuration', requestDuration);
 
+        // Optionally set the request ID in the response headers
+        if (context.requestId) {
+          res.setHeader('X-Request-ID', context.requestId);
+        }
+
         // Forward all arguments to the original function
         // Ensure we meet the expected signature requirements
         return originalEnd.apply(this, args as [any, BufferEncoding, (() => void) | undefined]);
